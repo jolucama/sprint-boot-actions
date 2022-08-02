@@ -1,10 +1,6 @@
 name: dev-github-actions
 on: [push]
 jobs:
-  checkout-repo:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
   build-and-unit-test:
     runs-on: ubuntu-latest
     steps:
@@ -18,3 +14,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "sonarcloud"
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "terraform"
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "deploy"
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "smoke-test"
