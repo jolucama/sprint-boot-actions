@@ -8,6 +8,7 @@ jobs:
   build-and-unit-test:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - run: make compile
   contract-testing:
     runs-on: ubuntu-latest
