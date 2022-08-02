@@ -6,17 +6,21 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: make compile
-  contract-testing:
+  contract-test:
     if: ${{ success() }}
     needs: build
     runs-on: ubuntu-latest
     steps:
       - run: echo "contract-testing"
-  sonarcloud:
+  sonarcloud-test:
+    if: ${{ success() }}
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - run: echo "sonarcloud"
   terraform:
+    if: ${{ success() }}
+    needs: [contract-test,sonarcloud-test]
     runs-on: ubuntu-latest
     steps:
       - run: echo "terraform"
