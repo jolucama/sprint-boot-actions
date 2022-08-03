@@ -2,13 +2,13 @@ name: stage-github-actions
 on:
   workflow_dispatch:
 jobs:
-  artifact:
+  pull-artifact:
     runs-on: ubuntu-latest
     steps:
       - run: echo "pull artifact"
   terraform:
     if: ${{ success() }}
-    needs: [contract-test,sonarcloud-test]
+    needs: [pull-artifact]
     runs-on: ubuntu-latest
     steps:
       - run: echo "terraform"
