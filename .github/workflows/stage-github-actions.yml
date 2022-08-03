@@ -1,0 +1,26 @@
+name: stage-github-actions
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "pull artifact"
+  terraform:
+    if: ${{ success() }}
+    needs: [contract-test,sonarcloud-test]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "terraform"
+  deploy:
+    if: ${{ success() }}
+    needs: terraform
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "deploy"
+  smoke-test:
+    if: ${{ success() }}
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "smoke-test"
