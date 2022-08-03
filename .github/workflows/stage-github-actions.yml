@@ -1,25 +1,11 @@
 name: stage-github-actions
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - run: make compile
-      - run: echo "build docker image"
-      - run: echo "push docker image"
-  contract-test:
-    if: ${{ success() }}
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "contract-testing"
-  sonarcloud-test:
-    if: ${{ success() }}
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "sonarcloud"
+      - run: echo "pull artifact"
   terraform:
     if: ${{ success() }}
     needs: [contract-test,sonarcloud-test]
