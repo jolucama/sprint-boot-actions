@@ -1,5 +1,5 @@
-name: dev-github-actions
-on: [push]
+name: stage-github-actions
+on: [workflow_dispatch]
 jobs:
   build:
     runs-on: ubuntu-latest
