@@ -1,4 +1,4 @@
-name: stage-github-actions
+name: prod-github-actions
 on:
   workflow_dispatch:
 jobs:

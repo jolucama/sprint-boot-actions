@@ -1,22 +1,33 @@
 name: dev-github-actions
 on: [push]
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - run: make compile
+  build-docker-image:
+    if: ${{ success() }}
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
       - run: echo "build docker image"
-      - run: echo "create artifact"
+  build-artifact:
+    if: ${{ success() }}
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "build artifact"
   contract-test:
     if: ${{ success() }}
-    needs: build
+    needs: [build-docker-image,build-artifact]
     runs-on: ubuntu-latest
     steps:
       - run: echo "contract-testing"
   sonarcloud-test:
     if: ${{ success() }}
-    needs: build
+    needs: [build-docker-image,build-artifact]
     runs-on: ubuntu-latest
     steps:
       - run: echo "sonarcloud"
