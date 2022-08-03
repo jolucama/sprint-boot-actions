@@ -21,13 +21,13 @@ jobs:
       - run: echo "build artifact"
   contract-test:
     if: ${{ success() }}
-    needs: [build-docker-image,build-artifact]
+    needs: [build-1-docker-image,build-2-artifact]
     runs-on: ubuntu-latest
     steps:
       - run: echo "contract-testing"
   sonarcloud-test:
     if: ${{ success() }}
-    needs: [build-docker-image,build-artifact]
+    needs: [build-1-docker-image,build-2-artifact]
     runs-on: ubuntu-latest
     steps:
       - run: echo "sonarcloud"
