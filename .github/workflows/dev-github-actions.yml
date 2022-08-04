@@ -7,27 +7,29 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: make compile
-  build-1-docker-image:
+  unit-test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "unit-test"
+  integration-test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "integration-test"
+  docker-image:
     if: ${{ success() }}
-    needs: [ build ]
+    needs: [ unit-test, integration-test ]
     runs-on: ubuntu-latest
     steps:
       - run: echo "build docker image"
-  build-2-artifact:
-    if: ${{ success() }}
-    needs: [ build ]
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "build artifact"
   contract-test:
     if: ${{ success() }}
-    needs: [build-1-docker-image,build-2-artifact]
+    needs: [docker-image]
     runs-on: ubuntu-latest
     steps:
       - run: echo "contract-testing"
   sonarcloud-test:
     if: ${{ success() }}
-    needs: [build-1-docker-image,build-2-artifact]
+    needs: [docker-image]
     runs-on: ubuntu-latest
     steps:
       - run: echo "sonarcloud"

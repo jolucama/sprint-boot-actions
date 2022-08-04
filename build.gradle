@@ -20,7 +20,11 @@ repositories {
     mavenCentral()
 }
 
+def integrationTest = sourceSets.create("integrationTest")
+
 dependencies {
+    integrationTestImplementation(project)
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -48,4 +52,20 @@ jacocoTestReport {
         csv.enabled true
         html.destination file("${buildDir}/jacocoHtml")
     }
+}
+
+def integrationTestTask = tasks.register("integrationTest", Test) {
+    description = 'Runs the integration tests.'
+    group = "verification"
+    testClassesDirs = integrationTest.output.classesDirs
+    classpath = integrationTest.runtimeClasspath
+    mustRunAfter(tasks.named('test'))
+}
+tasks.named('check') {
+    dependsOn(integrationTestTask)
+}
+
+tasks.withType(Test).configureEach {
+    // Using JUnitPlatform for running tests
+    useJUnitPlatform()
 }
