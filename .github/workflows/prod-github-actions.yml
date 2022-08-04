@@ -2,13 +2,13 @@ name: prod-github-actions
 on:
   workflow_dispatch:
 jobs:
-  pull-artifact:
+  artifact:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "pull artifact"
+      - run: echo "artifact"
   terraform:
     if: ${{ success() }}
-    needs: [pull-artifact]
+    needs: [artifact]
     runs-on: ubuntu-latest
     steps:
       - run: echo "terraform"
