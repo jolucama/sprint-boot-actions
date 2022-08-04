@@ -1,4 +1,4 @@
-name: prod-github-actions
+name: prod
 on: [push]
 
 jobs:
