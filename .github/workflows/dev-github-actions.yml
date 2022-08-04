@@ -12,7 +12,8 @@ jobs:
     needs: [ build ]
     runs-on: ubuntu-latest
     steps:
-      - run: echo "unit-test"
+      - uses: actions/checkout@v3
+      - run: make unit
   integration-test:
     if: ${{ success() }}
     needs: [ build ]

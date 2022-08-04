@@ -2,7 +2,11 @@ SHELL := /bin/bash
 
 compile:
 	chmod +x ./gradlew
-	./gradlew $$GRADLE_PROXY clean build jacocoTestReport jacocoTestCoverage
+	./gradlew clean build jacocoTestReport jacocoTestCoverage
+
+unit:
+	chmod +x ./gradlew
+	./gradlew clean test
 
 docker: compile
 	docker build -t build-status . && \
