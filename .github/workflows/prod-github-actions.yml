@@ -1,6 +1,6 @@
 name: prod-github-actions
-on:
-  workflow_dispatch:
+on: [push]
+
 jobs:
   artifact:
     runs-on: ubuntu-latest
