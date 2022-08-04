@@ -8,10 +8,14 @@ jobs:
       - uses: actions/checkout@v3
       - run: make compile
   unit-test:
+    if: ${{ success() }}
+    needs: [ build ]
     runs-on: ubuntu-latest
     steps:
       - run: echo "unit-test"
   integration-test:
+    if: ${{ success() }}
+    needs: [ build ]
     runs-on: ubuntu-latest
     steps:
       - run: echo "integration-test"
