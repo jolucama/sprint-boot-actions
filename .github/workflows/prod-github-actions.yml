@@ -1,9 +1,6 @@
 name: prod
 on:
   push:
-#    branches:
-#      - 'master/**'
-
 jobs:
   artifact:
     runs-on: ubuntu-latest
