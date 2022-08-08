@@ -1,9 +1,8 @@
 name: prod
 on:
-  push:
-#    branches:
-#      - 'master/**'
-
+  pull_request_target:
+    types:
+      - closed
 jobs:
   artifact:
     runs-on: ubuntu-latest
