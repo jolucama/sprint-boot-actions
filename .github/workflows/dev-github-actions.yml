@@ -1,6 +1,6 @@
 name: dev
 on:
-  pull_request_target:
+  push:
 jobs:
   build:
     runs-on: ubuntu-latest
