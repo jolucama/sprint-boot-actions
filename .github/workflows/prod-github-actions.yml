@@ -1,8 +1,8 @@
 name: prod
 on:
   push:
-    branches:
-      - 'master/**'
+#    branches:
+#      - 'master/**'
 
 jobs:
   artifact:
