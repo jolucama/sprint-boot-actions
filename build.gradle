@@ -20,11 +20,22 @@ repositories {
     mavenCentral()
 }
 
-def integrationTest = sourceSets.create("integrationTest")
+sourceSets {
+    integration {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+        java {
+            srcDirs("src/integration")
+        }
+    }
+}
+
+configurations {
+    integrationImplementation.extendsFrom(testImplementation)
+    integrationRuntimeOnly.extendsFrom(testRuntimeOnly)
+}
 
 dependencies {
-    integrationTestImplementation(project)
-
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -34,11 +45,10 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit-pioneer:junit-pioneer:1.7.1'
     testImplementation 'com.jayway.restassured:rest-assured:2.8.0'
-//    testCompile 'com.jayway.restassured:rest-assured:2.8.0'
-}
 
-test {
-    useJUnitPlatform()
+    integrationImplementation 'org.springframework.boot:spring-boot-starter-test'
+    integrationImplementation 'org.junit-pioneer:junit-pioneer:1.7.1'
+    integrationImplementation 'com.jayway.restassured:rest-assured:2.8.0'
 }
 
 jacoco {
@@ -54,15 +64,29 @@ jacocoTestReport {
     }
 }
 
-def integrationTestTask = tasks.register("integrationTest", Test) {
-    description = 'Runs the integration tests.'
-    group = "verification"
-    testClassesDirs = integrationTest.output.classesDirs
-    classpath = integrationTest.runtimeClasspath
-    mustRunAfter(tasks.named('test'))
+
+
+task printSourceSetInformation(){
+
+    doLast{
+        sourceSets.each { srcSet ->
+            println "["+srcSet.name+"]"
+            print "-->Source directories: "+srcSet.allJava.srcDirs+"\n"
+            print "-->Output directories: "+srcSet.output.classesDirs.files+"\n"
+            print "-->Compile classpath:\n"
+            srcSet.compileClasspath.files.each {
+                print "  "+it.path+"\n"
+            }
+            println ""
+        }
+    }
 }
-tasks.named('check') {
-    dependsOn(integrationTestTask)
+
+task integration(type: Test) {
+    description = "Run integration tests"
+    group = "verification"
+    testClassesDirs = sourceSets.integration.output.classesDirs
+    classpath = sourceSets.integration.runtimeClasspath
 }
 
 tasks.withType(Test).configureEach {
