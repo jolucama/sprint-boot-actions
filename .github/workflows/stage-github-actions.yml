@@ -1,6 +1,7 @@
 name: stage
 on:
   workflow_dispatch:
+
 jobs:
   pull-artifact:
     runs-on: ubuntu-latest
