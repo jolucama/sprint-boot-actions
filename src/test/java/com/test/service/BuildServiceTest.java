@@ -13,9 +13,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class BuildServiceTest {
 
-  public static final String BUILD_NUMBER = "1.0.1.1";
+  public static final String BUILD_NUMBER = "1.0.1.4";
+
   @Mock
   private EnvironmentService environmentService;
+
   @InjectMocks
   private BuildService buildService;
 
